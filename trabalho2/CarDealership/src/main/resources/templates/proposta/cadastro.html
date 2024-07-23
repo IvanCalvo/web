@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+	<head>
+		<title>CarDealership</title>
+		<link href="${pageContext.request.contextPath}/layout.css" rel="stylesheet" type="text/css"/>
+	</head>
+	
+<body>
+	<div align="left">
+		<table border="1">
+		<h2>Campos para cadastro da proposta</h2>	
+		<hr>
+		
+		<form action="#" th:action="${proposta.id == null} ? @{/propostas/salvar} : @{/propostas/editar}" th:object="${proposta}" method="POST">
+			<div th:switch="${proposta.status}"> 
+ 					<p th:case="'CONTRA'">
+ 						<input type="hidden" id="id" th:field="*{id}">
+					
+						<label for="condPagamento">Condições de Pagamento</label>
+			      		<span th:if="${#fields.hasErrors('condPagamento')}" th:errors="*{condPagamento}" class="text-danger"></span>
+						<input type="text" th:field="*{condPagamento}" placeholder="Condição Pagamento" class="form-control mb-4 col-4" readonly>
+		      		
+					</br></br>
+					
+			      		<label for="dataProposta">Data da Proposta</label> 
+			      		<span th:if="${#fields.hasErrors('dataProposta')}" th:errors="*{dataProposta}" class="text-danger"></span>
+						<input type="date" th:field="*{dataProposta}" placeholder="Data Proposta" class="form-control mb-4 col-4" readonly>
+					</br></br>
+					
+						<label for="status">Status:</label> 
+						<select class="form-control" th:field="*{status}"
+									th:classappend="${#fields.hasErrors('status')} ? is-invalid">
+									<option sec:authorize="hasAuthority('CLIENTE')" value="RECUSADO">RECUSAR</option>
+									<option sec:authorize="hasAuthority('CLIENTE')" value="ACEITO">ACEITAR</option>
+						</select>
+					</br></br>
+					
+						<span th:if="${#fields.hasErrors('cliente.id')}" th:errors="*{cliente.id}" class="text-danger"></span>
+						<input type="hidden" th:field="*{cliente.id}" placeholder="Id Cliente" class="form-control mb-4 col-4" readonly>
+						
+						<span th:if="${#fields.hasErrors('carro.id')}" th:errors="*{carro.id}" class="text-danger"></span>
+						<input type="hidden" th:field="*{carro.id}" placeholder="Id Carro" class="form-control mb-4 col-4" readonly>
+					
+						<label for="valor">Valor:</label> 
+						<span th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}" class="text-danger"></span>
+						<input type="text" th:field="*{valor}" placeholder="valor" class="form-control mb-4 col-4" readonly>
+					</br></br>
+					<button type="submit" class="btn btn-info col-2">Salvar</button>
+ 					</p>
+
+				<p th:case="*">
+					<input type="hidden" id="id" th:field="*{id}">
+					
+					</br>
+						<label for="condPagamento">Condições de Pagamento</label>
+			      		<span th:if="${#fields.hasErrors('condPagamento')}" th:errors="*{condPagamento}" class="text-danger"></span>
+						<input type="text" th:field="*{condPagamento}" placeholder="Condição Pagamento" class="form-control mb-4 col-4" required>
+					</br>
+		      		
+					</br>
+			      		<label for="dataProposta">Data da Proposta</label> 
+			      		<span th:if="${#fields.hasErrors('dataProposta')}" th:errors="*{dataProposta}" class="text-danger"></span>
+						<input type="date" th:field="*{dataProposta}" placeholder="Data Proposta" class="form-control mb-4 col-4" required>
+					</br>
+					</br>
+						<label for="status">Status:</label> 
+						<select class="form-control" th:field="*{status}"
+									th:classappend="${#fields.hasErrors('status')} ? is-invalid" required>
+								<option sec:authorize="hasAuthority('CLIENTE')"value="ABERTO">ABERTO</option>
+								<option sec:authorize="hasAuthority('LOJA')" value="RECUSADO">RECUSAR</option>
+								<option sec:authorize="hasAuthority('LOJA')" value="ACEITO">ACEITAR</option>
+								<option sec:authorize="hasAuthority('LOJA')" value="CONTRA">FAZER CONTRA PROPOSTA</option>
+						</select>
+					</br>
+					</br>
+						<span th:if="${#fields.hasErrors('cliente.id')}" th:errors="*{cliente.id}" class="text-danger"></span>
+						<input type="hidden" th:field="*{cliente.id}" placeholder="Id Cliente" class="form-control mb-4 col-4" readonly>
+						
+						<span th:if="${#fields.hasErrors('carro.id')}" th:errors="*{carro.id}" class="text-danger"></span>
+						<input type="hidden" th:field="*{carro.id}" placeholder="Id Carro" class="form-control mb-4 col-4" readonly>
+
+						<label for="valor">Valor:</label> 
+						<span th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}" class="text-danger"></span>
+						<input type="text" th:field="*{valor}" placeholder="valor" class="form-control mb-4 col-4" required>
+					</br></br>
+					<button type="submit" class="btn btn-info col-2">Salvar</button>
+				</p>
+					
+			</div>
+		</form>
+
+		</table>
+	</div>
+</body>
+
+</html>

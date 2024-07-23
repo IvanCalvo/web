@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<title>Gestão de clientes</title>
+
+</head>
+<body>
+	<div class="container my-2">
+		<h2>Gestão de clientes</h2>
+		<form action="#" th:action="${cliente.id == null} ? @{/clientes/salvar} : @{/clientes/editar}" th:object="${cliente}" method="POST">
+			<input type="hidden" id="id" th:field="*{id}">
+			
+			<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+			<input th:if="${cliente.id != null}" readonly type="text" th:field="*{email}" placeholder="Email" class="form-control mb-4 col-4" required="required">
+			<input th:if="${cliente.id == null}" type="text" th:field="*{email}" placeholder="Email" class="form-control mb-4 col-4" required="required">
+			
+			<span th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" class="text-danger"></span>
+			<input type="password" th:field="*{senha}" placeholder="Senha" class="form-control mb-4 col-4" required="required">
+			
+			<select class="form-control" th:field="*{papel}"
+				th:classappend="${#fields.hasErrors('papel')} ? is-invalid">
+				<option value="CLIENTE">CLIENTE</option>
+			</select>
+			
+      		<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="text-danger"></span>
+			<input type="text" th:field="*{nome}" placeholder="Nome" class="form-control mb-4 col-4" required="required">
+			
+			<span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="text-danger"></span>
+			<input th:if="${cliente.id != null}" readonly type="text" th:field="*{cpf}" placeholder="Cpf" class="form-control mb-4 col-4" required="required">
+			<input th:if="${cliente.id == null}" type="text" th:field="*{cpf}" placeholder="Cpf" class="form-control mb-4 col-4" required="required">
+			
+			<span th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}" class="text-danger"></span>
+			<input type="text" th:field="*{telefone}" placeholder="Telefone" class="form-control mb-4 col-4" required="required">
+			
+			<select class="form-control" th:field="*{sexo}"
+				th:classappend="${#fields.hasErrors('sexo')} ? is-invalid">
+				<option value="M">M</option>
+				<option value="F">F</option>
+			</select>
+			
+			<span th:if="${#fields.hasErrors('dataDeNascimento')}" th:errors="*{dataDeNascimento}" class="text-danger"></span>
+			<input type="date" th:field="*{dataDeNascimento}" placeholder="dataDeNascimento" class="form-control mb-4 col-4" required="required">
+      		
+			
+			<button type="submit" class="btn btn-info col-2">Salvar</button>
+		</form>
+		<hr>
+		<a th:href="@{/clientes/listar}">Retornar para a lista de clientes</a>
+	</div>
+</body>
+</html>

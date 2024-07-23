@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>CarDealership</title>
+</head>
+<body>
+	<div sec:authorize="!isAuthenticated()">
+	    <a th:href="@{/login}">Fazer Login</a>
+    	<a th:href="@{/carros/listar}">Listar Veículos</a>
+	</div>
+	<div sec:authorize="hasAuthority('LOJA')">
+		<h1>Bem vindo, [[${#httpServletRequest.remoteUser}]]!</h1>
+		<ul>
+            <li>
+            	<a th:href="@{/carros/cadastrar}">Adicione Novo Carro</a>
+            	<a th:href="@{/lojas/listarCarro}">Lista de Carros da Loja</a>
+            	<a th:href="@{/lojas/listarProposta}">Lista de Propostas da Loja</a>
+            	<form th:action="@{/logout}" method="post">
+            		<input type="submit" value="Sign Out"/>
+        		</form>
+            </li>
+        </ul>
+	</div>
+
+	<div sec:authorize="hasAuthority('ADMIN')">
+		<h1>Bem vindo, [[${#httpServletRequest.remoteUser}]]!</h1>
+		<ul>
+            <li>
+            	<a th:href="@{/usuarios/listar}">Listar Usuarios</a>
+            	<a th:href="@{/lojas/listar}">Listar Lojas</a>
+            	<a th:href="@{/clientes/listar}">Listar Clientes</a>
+            	<a th:href="@{/clientes/cadastrar}">Cadastrar Cliente</a>
+            	<a th:href="@{/lojas/cadastrar}">Cadastrar Loja</a>
+            	<a th:href="@{/usuarios/cadastrar}">Cadastrar Admin</a>
+            	<form th:action="@{/logout}" method="post">
+            		<input type="submit" value="Sign Out"/>
+        		</form>
+            </li>
+        </ul>
+	</div>
+
+	<div sec:authorize="hasAuthority('CLIENTE')">
+		<h1>Bem vindo, [[${#httpServletRequest.remoteUser}]]!</h1>
+		<ul>
+            <li>
+            	<a th:href="@{/propostas/listar}">Listar Propostas</a>
+            	<a th:href="@{/carros/listar}">Listar Carros</a>
+            	<form th:action="@{/logout}" method="post">
+            		<input type="submit" value="Sign Out"/>
+        		</form>
+            </li>
+        </ul>
+	</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<title>Listar Lojas</title>
+
+</head>
+<body>
+	<div class="container my-2" align="center">
+		<h1>Lojas</h1>
+		<a th:href="@{/}">Home</a>
+		<hr>
+		<table border="1" class="table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th th:text="Nome"></th>
+					<th th:text="Descrição"></th>
+					<th th:text="CNPJ"></th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="loja : ${lojas}">
+					<td th:text="${loja.id}"></td>
+					<td th:text="${loja.nome}"></td>
+					<td th:text="${loja.descricao}"></td>
+					<td th:text="${loja.cnpj}"></td>
+										<td>
+						<a class="btn btn-info btn-sm"
+							th:href="@{/lojas/editar/{id} (id=${loja.id}) }" role="button"> 
+							<span class="oi oi-brush" th:title="#{link.editar.label}" aria-hidden="true">Editar</span>
+						</a>
+						<a class="btn btn-info btn-sm"
+							th:href="@{/lojas/excluir/{id} (id=${loja.id}) }" role="button"> 
+							<span class="oi oi-brush" th:title="#{link.excluir.label}" aria-hidden="true">Excluir</span>
+						</a>
+					</td>	
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

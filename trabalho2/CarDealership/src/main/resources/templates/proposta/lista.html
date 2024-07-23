@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>CarDealership</title>
+</head>
+<body>
+	<div align="center">
+		<h1>Lista de propostas</h1>
+		<h2>
+			<div sec:authorize="hasAuthority('LOJA')">
+					<a th:href="@{/}">Menu Loja</a>
+			</div>
+			<div sec:authorize="hasAuthority('CLIENTE')">
+					<a th:href="@{/}">Menu Cliente</a>
+			</div>
+		</h2>
+	</div>
+
+	<div align="center">
+		<table border="1">
+			<caption>Lista de Propostas</caption>
+			<tr>
+				<th>ID</th>
+				<th>Modelo</th>
+				<th>Loja</th>
+				<th>Condição de Pagamento</th>
+				<th>valor</th>
+				<th>Status</th>
+				<div sec:authorize="hasAuthority('LOJA')">
+						<th>Ações</th>
+				</div>
+			</tr>
+				<tr th:each="Proposta : ${propostas}">
+					<div th:if="${#httpServletRequest.remoteUser == Proposta.cliente.email}">
+						<td th:text ="${Proposta.id}"></td>
+						<td th:text ="${Proposta.carro.modelo}"></td>
+						<td th:text ="${Proposta.carro.loja.nome}"></td>
+						<td th:text ="${Proposta.condPagamento}"></td>
+						<td th:text ="${Proposta.valor}"></td>
+						<td th:text ="${Proposta.status}"></td>
+							<div sec:authorize="hasAuthority('CLIENTE')">
+								<td><a th:href="@{/propostas/excluir/{id} (id=${Proposta.id}) }">Excluir Proposta</a></td>
+								<div th:if="${Proposta.status == 'CONTRA'}">
+									<td><a th:href="@{/propostas/editar/{id} (id=${Proposta.id}) }">Responder Proposta</a></td>
+								</div>
+							</div>
+					</div>
+				</tr>
+		</table>
+	</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<title>Gestão de usuarios</title>
+
+</head>
+<body>
+	<div class="container my-2">
+		<h2>Gestão de usuarios</h2>
+		<form action="#" th:action="${usuario.id == null} ? @{/usuarios/salvar} : @{/usuarios/editar}" th:object="${usuario}" method="POST">
+			<input type="hidden" id="id" th:field="*{id}">
+			
+			<p>
+				<label for="email">Email</label>
+				<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+				<input th:if="${usuario.id != null}" readonly type="text" th:field="*{email}" placeholder="Email" class="form-control mb-4 col-4" required>
+				<input th:if="${usuario.id == null}" type="text" th:field="*{email}" placeholder="Email" class="form-control mb-4 col-4" required>
+			</p>
+			<p>
+				<label for="senha">Senha</label>
+				<span th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" class="text-danger"></span>
+				<input type="password" th:field="*{senha}" placeholder="Senha" class="form-control mb-4 col-4" required>
+			</p>
+			<p>
+				<label for="papel">papel</label>
+				<select class="form-control" th:field="*{papel}"
+					th:classappend="${#fields.hasErrors('papel')} ? is-invalid" required>
+					<option value="ADMIN">ADMIN</option>
+				</select>
+			</p>
+			
+			<button type="submit" class="btn btn-info col-2">Salvar</button>
+		</form>
+		<hr>
+		<a th:href="@{/usuarios/listar}">Retornar para a lista de usuarios</a>
+	</div>
+</body>
+</html>

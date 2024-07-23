@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<title>Listar Veiculo</title>
+
+</head>
+<script>
+	function filterFunction() {
+	  // Declare variables
+	  var input, filter, table, tr, td, i, txtValue;
+	  input = document.getElementById("modelFilter");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("tabelaCarros");
+	  tr = table.getElementsByTagName("tr");
+	
+	  // Loop through all table rows, and hide those who don't match the search query
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("td")[3];
+	    if (td) {
+	      txtValue = td.textContent || td.innerText;
+	      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+	        tr[i].style.display = "";
+	      } else {
+	        tr[i].style.display = "none";
+	      }
+	    }
+	  }
+	}
+</script>
+<body>
+	<div class="container my-2" align="center">
+		<h1>Carros</h1>
+		<a th:href="@{/}">Home</a>
+		<hr>
+		<input type="text" id="modelFilter" onkeyup="filterFunction()" placeholder ="Procure pelo modelo">
+		<table border="1" class="table table-striped table-responsive-md" id="tabelaCarros">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th th:text="Loja"></th>
+					<th th:text="Placa"></th>
+					<th th:text="Modelo"></th>
+					<th th:text="Chassi"></th>
+					<th th:text="Ano"></th>
+					<th th:text="Quilometragem"></th>
+					<th th:text="Descrição"></th>
+					<th th:text="Valor"></th>
+					<th th:text="Fotos"></th>
+					<div sec:authorize="hasAuthority('CLIENTE')">
+						<th>Ações</th>
+					</div>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="carro : ${carros}">
+					<td th:text="${carro.id}"></td>
+					<td th:text="${carro.loja.nome}"></td>
+					<td th:text="${carro.placa}"></td>
+					<td th:text="${carro.modelo}"></td>
+					<td th:text="${carro.chassi}"></td>
+					<td th:text="${carro.ano}"></td>
+					<td th:text="${carro.quilometragem}"></td>
+					<td th:text="${carro.descricao}"></td>
+					<td th:text="${carro.valor}"></td>
+					<td th:text="${carro.fotos}"></td>
+					<div sec:authorize="hasAuthority('CLIENTE')">
+							<td><a th:href="@{/propostas/cadastrar/{id} (id=${carro.id}) }">Adicionar Proposta</a></td>
+					</div>			
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
